@@ -50,7 +50,10 @@ class Document {
         count++;
       }
     });
-    return count;
+    if (count == 1) {
+      return '$count word';
+    }
+    return '$count words';
   }
 
   String toJson() {
