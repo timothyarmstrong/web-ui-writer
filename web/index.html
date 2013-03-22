@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css.css" />
+
+    <!-- COMPONENTS -->
+    <link rel="components" href="document_item.html">
+  </head>
+  <body>
+    <section id="sidebar">
+      <div class="toolbar">
+        <button on-click="app.createDocument()">+</button>
+        <input type="text" placeholder="Search" bind-value="app.searchFilter" />
+      </div>
+      
+      <div class="items">
+        <template iterate="doc in app.documents">
+          <template instantiate="if app.matchesFilter(doc)">
+            <x-document-item doc={{doc}}></x-document-item>
+          </template>
+        </template>
+      </div>
+
+      <div class="footer">
+        <a href="http://github.com/timothyarmstrong/web-ui-writer">View Source</a>
+      </div>
+    </section>
+    <section id="main">
+      <template instantiate="if app.activeDocument != null">
+        <div class="title">
+          <input type="text" bind-value="app.activeDocument.title" on-key-up="app.saveActiveDocument()" />
+        </div>
+        <textarea class="content" bind-value="app.activeDocument.content" on-key-up="app.saveActiveDocument()"></textarea>
+        <div class="footer">
+          {{app.activeDocument.wordCount}} words.
+        </div>
+      </template>
+    </section>
+    <script type="application/dart" src="app.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

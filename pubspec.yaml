@@ -1,0 +1,4 @@
+name: writer
+description: TODO
+dependencies:
+  web_ui: any

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html><body>
+  <element name="x-document-item" constructor="DocumentItem" extends="div">
+    <template indentation="remove">
+      <!-- TODO: Move 'active' to the outside, don't have item here -->
+      <div class="item {{doc == app.activeDocument ? 'active': ''}}" on-click="app.selectDocument(doc)">
+          <div class="title">{{doc.title}}</div>
+          <div class="modified">{{friendlyTime(doc.modified)}}</div>
+          <button class="delete" on-click="app.deleteDocument(doc)">&times;</button>
+      </div>
+    </template>
+
+    <script type="application/dart">
+      import 'package:web_ui/web_ui.dart';
+      import 'app.dart';
+
+      class DocumentItem extends WebComponent {
+        
+        String friendlyTime(DateTime time) {
+          DateTime now = new DateTime.now();
+          if (time.day == now.day &&
+              time.month == now.month &&
+              time.year == now.year) {
+            String suffix = 'pm';
+            if (time.hour < 13) {
+              suffix = 'am';
+            }
+            int hour = time.hour;
+            if (time.hour == 0) {
+              hour = 12;
+            } else if (time.hour > 12) {
+              hour = time.hour % 12;
+            }
+            String minute = time.minute;
+            if (time.minute < 10) {
+              minute = '0$minute';
+            }
+            return '$hour:$minute $suffix';
+          } else if (time.difference(now).inDays < 7) {
+            Map<int, String> days;
+            days[1] = 'Monday';
+            days[2] = 'Tuesday';
+            days[3] = 'Wednesday';
+            days[4] = 'Thursday';
+            days[5] = 'Friday';
+            days[6] = 'Saturday';
+            days[7] = 'Sunday';
+            return days[time.weekday];
+          } else if (time.year == now.year) {
+            return '${time.month} ${time.day}';
+          }
+          return '${time.month} ${time.day}, ${time.year}';
+        }
+
+        Document doc;
+      }
+    </script>
+  </element>
+</body></html>
