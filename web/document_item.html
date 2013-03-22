@@ -2,7 +2,6 @@
 <html><body>
   <element name="x-document-item" constructor="DocumentItem" extends="div" apply-author-styles>
     <template indentation="remove">
-      <!-- TODO: Move 'active' to the outside, don't have item here -->
       <div class="item {{doc == app.activeDocument ? 'active': ''}}" on-click="app.selectDocument(doc)">
           <div class="title">{{doc.title.isEmpty ? 'Untitled' : doc.title}}</div>
           <div class="modified">{{friendlyTime(doc.modified)}}</div>
