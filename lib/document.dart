@@ -45,7 +45,7 @@ class Document {
 
   int get wordCount {
     int count = 0;
-    _content.split(new RegExp(r"([^a-zA-z1-9\']|\s)+")).forEach((word) {
+    _content.split(new RegExp(r"([^a-zA-z0-9\']|\s)+")).forEach((word) {
       if (!word.isEmpty) {
         count++;
       }
