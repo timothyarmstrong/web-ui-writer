@@ -43,7 +43,7 @@ class Document {
 
   String get content => _content;
 
-  int get wordCount {
+  String get wordCount {
     int count = new RegExp(r"(\w|\')+").allMatches(_content).length;
     if (count == 1) {
       return '$count word';

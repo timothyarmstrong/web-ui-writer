@@ -81,7 +81,7 @@ class WriterApp {
   }
 
   // Makes the provided document the active document.
-  selectDocument(Document doc) {
+  void selectDocument(Document doc) {
     activeDocument = doc;
     // We have to wait until the content element is instantiated to focus on it.
     Timer.run(() {
@@ -90,7 +90,10 @@ class WriterApp {
   }
 
   // Returns true if the provided document matches the current search filter.
-  matchesSearchFilter(Document doc) {
+  bool matchesSearchFilter(Document doc) {
+    if (searchFilter.isEmpty) {
+      return true;
+    }
     return doc.title.toLowerCase().contains(searchFilter.toLowerCase()) ||
            doc.content.toLowerCase().contains(searchFilter.toLowerCase());
   }
