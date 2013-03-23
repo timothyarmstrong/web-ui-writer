@@ -44,12 +44,7 @@ class Document {
   String get content => _content;
 
   int get wordCount {
-    int count = 0;
-    _content.split(new RegExp(r"([^a-zA-z0-9\']|\s)+")).forEach((word) {
-      if (!word.isEmpty) {
-        count++;
-      }
-    });
+    int count = new RegExp(r"(\w|\')+").allMatches(_content).length;
     if (count == 1) {
       return '$count word';
     }
