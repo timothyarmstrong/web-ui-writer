@@ -1,5 +1,6 @@
 part of writer;
 
+@observable
 class Document {
 
   String _title;
@@ -29,6 +30,18 @@ class Document {
     modified = DateTime.parse(data['modified']);
   }
 
+  // Serialize this object into a JSON string.
+  String toJson() {
+    var data = {
+      'id': id,
+      'title': _title,
+      'content': _content,
+      'created': created.toString(),
+      'modified': modified.toString()
+    };
+    return JSON.stringify(data);
+  }
+
   set title(String title) {
     _title = title;
     modified = new DateTime.now();
@@ -49,16 +62,5 @@ class Document {
       return '$count word';
     }
     return '$count words';
-  }
-
-  String toJson() {
-    var data = {
-      'id': id,
-      'title': _title,
-      'content': _content,
-      'created': created.toString(),
-      'modified': modified.toString()
-    };
-    return JSON.stringify(data);
   }
 }

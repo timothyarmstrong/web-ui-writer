@@ -18,7 +18,7 @@
       <div class="items">
         <template iterate="doc in app.documents">
           <template instantiate="if app.matchesSearchFilter(doc)">
-            <x-document-item doc={{doc}}></x-document-item>
+            <x-document-item doc="{{doc}}"></x-document-item>
           </template>
         </template>
       </div>

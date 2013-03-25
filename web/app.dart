@@ -4,14 +4,14 @@ import 'dart:async';
 import 'dart:html' hide Document;
 import 'dart:json' as JSON;
 
-//import 'package:web_ui/observe.dart';
-//import 'package:web_ui/observe/list.dart';
+import 'package:web_ui/observe.dart';
 
 part 'package:writer/document.dart'; 
 
-// This class encapsulates my application state and logic.
+// This class encapsulates the application state and logic.
+@observable
 class WriterApp {
-  List<Document> documents = [];
+  final List<Document> documents = toObservable([]);
   List<String> documentIds = [];
   Document activeDocument;
 

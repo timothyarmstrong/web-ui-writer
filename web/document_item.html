@@ -14,6 +14,8 @@
       import 'app.dart';
 
       class DocumentItem extends WebComponent {
+
+        Document doc;
         
         // TODO: Move this into a utils file? The only reason I like it here is
         // so that I can show that WebComponent objects can have methods
@@ -68,8 +70,6 @@
           }
           return '${months[time.month]} ${time.day}, ${time.year}';
         }
-
-        Document doc;
       }
     </script>
   </element>
