@@ -17,6 +17,9 @@ class WriterApp {
 
   String searchFilter = '';
 
+  bool sidebarActive = true;
+  bool contentActive = false;
+
   const String DOCUMENT_ID_KEY = 'writer-document-id';
 
   WriterApp() {
@@ -81,12 +84,21 @@ class WriterApp {
   }
 
   // Makes the provided document the active document.
-  void selectDocument(Document doc) {
+  void selectDocument(Document doc, [bool markActive = false]) {
     activeDocument = doc;
     // We have to wait until the content element is instantiated to focus on it.
+    if (markActive) {
+      sidebarActive = false;
+      contentActive = true;
+    }
     Timer.run(() {
-      query('#main .content').focus();
+      //query('#main .content').focus();
     });
+  }
+
+  void showMenu() {
+    sidebarActive = true;
+    contentActive = false;
   }
 
   // Returns true if the provided document matches the current search filter.

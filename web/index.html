@@ -9,7 +9,7 @@
     <link rel="components" href="document_item.html">
   </head>
   <body>
-    <section id="sidebar">
+    <section id="sidebar" class="{{app.sidebarActive ? 'active' : ''}}">
       <div class="toolbar">
         <button on-click="app.createDocument()">+</button>
         <input type="text" placeholder="Search" bind-value="app.searchFilter" />
@@ -27,9 +27,10 @@
         <a href="http://github.com/timothyarmstrong/web-ui-writer">View Source</a>
       </div>
     </section>
-    <section id="main">
+    <section id="main" class="{{app.contentActive ? 'active' : ''}}">
       <template instantiate="if app.activeDocument != null">
         <div class="title">
+          <button on-click="app.showMenu()">HELLO</button>
           <input type="text" bind-value="app.activeDocument.title" on-key-up="app.saveActiveDocument()" />
         </div>
         <textarea class="content" bind-value="app.activeDocument.content" on-key-up="app.saveActiveDocument()"></textarea>
