@@ -2,6 +2,7 @@
 <html>
   <head>
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css.css" />
 
@@ -12,7 +13,9 @@
     <section id="sidebar" class="{{app.sidebarActive ? 'active' : ''}}">
       <div class="toolbar">
         <button on-click="app.createDocument()">+</button>
-        <input type="text" placeholder="Search" bind-value="app.searchFilter" />
+        <div class="input-wrap">
+          <input type="text" placeholder="Search" bind-value="app.searchFilter" />
+        </div>
       </div>
       
       <div class="items">
@@ -30,8 +33,10 @@
     <section id="main" class="{{app.contentActive ? 'active' : ''}}">
       <template instantiate="if app.activeDocument != null">
         <div class="title">
-          <button on-click="app.showMenu()">HELLO</button>
-          <input type="text" bind-value="app.activeDocument.title" on-key-up="app.saveActiveDocument()" />
+          <button on-click="app.showMenu()">&lt;</button>
+          <div class="input-wrap">
+            <input type="text" bind-value="app.activeDocument.title" on-key-up="app.saveActiveDocument()" />
+          </div>
         </div>
         <textarea class="content" bind-value="app.activeDocument.content" on-key-up="app.saveActiveDocument()"></textarea>
         <div class="footer">

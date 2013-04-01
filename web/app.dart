@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:html' hide Document;
 import 'dart:json' as JSON;
 
-import 'package:web_ui/observe.dart';
+import 'package:web_ui/web_ui.dart';
 
 part 'package:writer/document.dart'; 
 
@@ -17,20 +17,17 @@ class WriterApp {
 
   String searchFilter = '';
 
+  // Used to control which panel is displayed in the mobile mode.
   bool sidebarActive = true;
   bool contentActive = false;
 
   const String DOCUMENT_ID_KEY = 'writer-document-id';
 
   WriterApp() {
-    if (window.localStorage[DOCUMENT_ID_KEY] != null) {
-      documentIds = JSON.parse(window.localStorage[DOCUMENT_ID_KEY]);
-    }
-    for (var id in documentIds) {
-      loadDocument(id);
-    }
+    loadDocuments();
   }
 
+  // Creates a new empty document in the application.
   void createDocument() {
     // We only want to create a new document if the user doesn't have an
     // unmodified new document that was just created.
@@ -46,6 +43,7 @@ class WriterApp {
     selectDocument(doc);
   }
 
+  // Deletes the provided document from the application.
   void deleteDocument(Document doc) {
     documents.remove(doc);
     if (documents.length > 0) {
@@ -54,13 +52,13 @@ class WriterApp {
       } else {
         selectDocument(activeDocument);
       }
-    }
-    if (activeDocument == doc) {
+    } else {
       activeDocument = null;
     }
-    unsave(doc);
+    removeDocumentFromStorage(doc);
   }
 
+  // Save the currently active document to local storage.
   void saveActiveDocument() {
     window.localStorage[activeDocument.id] = activeDocument.toJson();
     if (!documentIds.contains(activeDocument.id)) {
@@ -70,27 +68,36 @@ class WriterApp {
   }
 
   // Removes a document from local storage.
-  void unsave(Document doc) {
+  void removeDocumentFromStorage(Document doc) {
     documentIds.remove(doc.id);
     window.localStorage[DOCUMENT_ID_KEY] = JSON.stringify(documentIds);
     window.localStorage.remove(doc.id);
   }
 
-  // Load a document from local storage, provided the local storage key.
-  void loadDocument(String key) {
-    var doc = new Document.fromJson(window.localStorage[key]);
-    documents.add(doc);
-    selectDocument(doc);
+  // Load all of the documents from local storage into the application.
+  void loadDocuments() {
+    if (window.localStorage[DOCUMENT_ID_KEY] != null) {
+      documentIds = JSON.parse(window.localStorage[DOCUMENT_ID_KEY]);
+    }
+    for (var id in documentIds) {
+      var doc = new Document.fromJson(window.localStorage[id]);
+      documents.add(doc);
+      selectDocument(doc);
+    }
   }
 
   // Makes the provided document the active document.
   void selectDocument(Document doc, [bool markActive = false]) {
+    // Ensure the document being selected wasn't just deleted.
+    if (!documents.contains(doc)) {
+      return;
+    }
     activeDocument = doc;
-    // We have to wait until the content element is instantiated to focus on it.
     if (markActive) {
       sidebarActive = false;
       contentActive = true;
     }
+    // We have to wait until the content element is instantiated to focus on it.
     Timer.run(() {
       //query('#main .content').focus();
     });
