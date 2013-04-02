@@ -15,7 +15,8 @@ class Document {
   Document(this._title, this._content) {
     // Use the object's hashCode as the unique key.
     // TODO: Maybe generate something longer?
-    id = 'document-$hashCode';
+    var random = new Random();
+    id = 'document-${random.nextInt(1000000)}';
     created = new DateTime.now();
     modified = new DateTime.now();
   }

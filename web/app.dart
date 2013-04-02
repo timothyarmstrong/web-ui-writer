@@ -3,6 +3,7 @@ library writer;
 import 'dart:async';
 import 'dart:html' hide Document;
 import 'dart:json' as JSON;
+import 'dart:math' show Random;
 
 import 'package:web_ui/web_ui.dart';
 
